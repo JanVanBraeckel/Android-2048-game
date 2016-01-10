@@ -1,7 +1,9 @@
 package com.example.userinterfaces1;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.TextView;
@@ -28,6 +30,15 @@ public class GameDone extends Activity {
             gameOver.setText("Game over, no more moves!");
         }
         finalScore.setText("Your score: " + getIntent().getExtras().getInt("score"));
+    }
+
+    @Override
+    protected void onDestroy() {
+        SharedPreferences.Editor edit = getSharedPreferences("2048", MODE_PRIVATE).edit();
+        edit.remove("board");
+        edit.remove("score");
+        edit.apply();
+        super.onDestroy();
     }
 
     @Override

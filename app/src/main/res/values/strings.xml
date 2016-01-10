@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Oefening1</string>
+    <string name="app_name">2048</string>
     <string name="btnContinue">Continue</string>
     <string name="btnNewGame">New Game</string>
     <string name="btnAbout">About</string>

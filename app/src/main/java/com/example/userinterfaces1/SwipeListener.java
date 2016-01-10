@@ -9,7 +9,7 @@ import android.view.View;
 /**
  * Created by Gebruiker on 19/10/2015.
  */
-public class SwipeListener implements View.OnTouchListener {
+public abstract class SwipeListener implements View.OnTouchListener {
 
     private final GestureDetectorCompat gestureDetector;
 
@@ -17,10 +17,10 @@ public class SwipeListener implements View.OnTouchListener {
         gestureDetector = new GestureDetectorCompat(context, new SwipeGestureListener());
     }
 
-    public void onSwipeRight(){}
-    public void onSwipeLeft(){}
-    public void onSwipeTop(){}
-    public void onSwipeBottom(){}
+    public abstract void onSwipeRight();
+    public abstract void onSwipeLeft();
+    public abstract void onSwipeTop();
+    public abstract void onSwipeBottom();
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {

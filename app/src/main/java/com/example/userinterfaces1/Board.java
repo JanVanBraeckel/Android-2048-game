@@ -2,8 +2,12 @@ package com.example.userinterfaces1;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.TextView;
@@ -21,43 +25,81 @@ public class Board extends GridLayout implements Serializable {
     private boolean hasMoved = false;
     private transient TextView txtScore;
     private int score = 0;
+    private int cardWidth;
 
-    public Board(Context context) {
-        this(context, null);
+    public Board(Context context, int[][] cards, int score) {
+        super(context);
+        initBoard(cards, score);
     }
 
-    public Board(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public Board(Context context, AttributeSet attrs, int defaultStyle) {
-        super(context, attrs, defaultStyle);
-        initBoard();
-    }
-
-    private void initBoard() {
+    private void initBoard(int[][] cards, int score) {
         setColumnCount(4);
         setRowCount(5);
         cardBoard = new Card[4][4];
-        setBackgroundColor(0xffbbada0);
+        setBackgroundColor(Color.parseColor("#bbada0"));
         txtScore = new TextView(getContext());
-        txtScore.setText("Score: " + score);
+        this.score = score;
+        updateScore();
+
         LayoutParams params = new GridLayout.LayoutParams();
         params.columnSpec = spec(0, 4);
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
         addView(txtScore, params);
+
+        int w = getWidth();
+        int h = getHeight();
+      //  cardWidth = (Math.min(w, h) - 10) / 4;
+        addCards(cardWidth, cardWidth, cards);
+
+
+
+        if (cards == null) {
+            cardWidth = (Math.min(w, h) - 10) / 4;
+            addCards(cardWidth, cardWidth, null);
+            startGame();
+        }
+
+        configurecards(w, h, 0, 0);
+
     }
 
-    private void addCards(int cardWidth, int cardHeight) {
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        return super.onSaveInstanceState();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
+    }
+
+    private void addCards(int cardWidth, int cardHeight, int[][] cards) {
+        boolean cardsExist = cards != null;
+
         Card c;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 c = new Card(getContext());
-                c.setNumber(0);
+                c.setNumber(cardsExist ? cards[i][j] : 0);
                 cardBoard[i][j] = c;
                 addView(c, cardWidth, cardHeight);
             }
         }
+    }
+
+    public int[][] getCardBoard() {
+        int[][] cardBoardInts = new int[4][4];
+        for(int row = 0; row < 4; row++){
+            for(int column = 0; column < 4; column++){
+                cardBoardInts[row][column] = cardBoard[row][column].getNumber();
+            }
+        }
+        return cardBoardInts;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public void resetBoard() {
@@ -78,8 +120,11 @@ public class Board extends GridLayout implements Serializable {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        int cardWidth = (Math.min(w, h) - 10) / 4;
-        addCards(cardWidth, cardWidth);
+
+        configurecards(w, h, oldw, oldh);
+    }
+
+    private void configurecards(int w, int h, int oldw, int oldh){
         cardWidth = w < h ? (w - 20) / 4 : (h - 20) / 4;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -90,13 +135,12 @@ public class Board extends GridLayout implements Serializable {
                 cardBoard[i][j].setLayoutParams(lp);
             }
         }
-        startGame();
     }
 
     public void startGame() {
-        //startLoseGame();
-        startmaybebuggame();
-        /*int value = Math.random() > 0.7 ? 4 : 2;
+//       startLoseGame();
+//        startmaybebuggame();
+        int value = Math.random() > 0.7 ? 4 : 2;
         int value2 = Math.random() > 0.7 ? 4 : 2;
         if (value == 4)
             value2 = 2;
@@ -104,10 +148,10 @@ public class Board extends GridLayout implements Serializable {
         getRandomCard().setNumber(value);
 
         Card card = getRandomCard();
-        while(card.getNumber() != 0){
+        while (card.getNumber() != 0) {
             card = getRandomCard();
         }
-        card.setNumber(value2);*/
+        card.setNumber(value2);
     }
 
     private void startmaybebuggame() {

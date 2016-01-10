@@ -2,7 +2,9 @@ package com.example.userinterfaces1;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -19,6 +21,13 @@ public class Welcome extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
         ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.btnContinue)
+    public void onContinueClicked(){
+        Intent intent = new Intent(this, PlayActivity.class);
+        intent.putExtra("continue", true);
+        startActivity(intent);
     }
 
     @OnClick(R.id.btnAbout)
@@ -38,6 +47,7 @@ public class Welcome extends Activity {
     @OnClick(R.id.btnNewGame)
     public void onNewGameClick(View v){
         Intent intent = new Intent(this, PlayActivity.class);
+        intent.putExtra("continue", false);
         startActivity(intent);
     }
 

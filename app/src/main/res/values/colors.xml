@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="number0">#cdc1b4</color>
+    <color name="number2">#eee4da</color>
+    <color name="number4">#ede0c8</color>
+    <color name="number8">#f2b179</color>
+    <color name="number16">#f59563</color>
+    <color name="number32">#f67c5f</color>
+    <color name="number64">#f65e3b</color>
+    <color name="number128">#edcf72</color>
+    <color name="number256">#edcc61</color>
+    <color name="number512">#edc850</color>
+    <color name="number1024">#edc53f</color>
+    <color name="number2048">#edc22e</color>
+</resources>
