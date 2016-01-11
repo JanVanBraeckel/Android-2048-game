@@ -352,11 +352,11 @@ public class Board extends GridLayout implements Serializable {
         for (int row = 0; row < 4; row++) {
             for (int column = 0; column < 4; column++) {
                 Card currentPosition = cardBoard[row][column];
-                boolean leftPossible = (row != 0) && cardBoard[row - 1][column].getNumber() == currentPosition.getNumber();
-                boolean rightPossible = (row != 3) && cardBoard[row + 1][column].getNumber() == currentPosition.getNumber();
-                boolean topPossible = (column != 0) && cardBoard[row][column - 1].getNumber() == currentPosition.getNumber();
-                boolean bottomPossible = (column != 3) && cardBoard[row][column + 1].getNumber() == currentPosition.getNumber();
-                if (leftPossible || rightPossible || topPossible || bottomPossible) {
+                boolean upPossible = (row != 0) && cardBoard[row - 1][column].getNumber() == currentPosition.getNumber();
+                boolean downPossible = (row != 3) && cardBoard[row + 1][column].getNumber() == currentPosition.getNumber();
+                boolean leftPossible = (column != 0) && cardBoard[row][column - 1].getNumber() == currentPosition.getNumber();
+                boolean rightPossible = (column != 3) && cardBoard[row][column + 1].getNumber() == currentPosition.getNumber();
+                if (upPossible || downPossible || leftPossible || rightPossible) {
                     return true;
                 }
             }
